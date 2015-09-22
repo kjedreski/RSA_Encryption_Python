@@ -14,3 +14,19 @@ def generateLargeN(size):
 #generate a integer for fermat's test
 def generateInt(n):
 	return random.randint(2,n-2)
+	
+#generate a relatively prime number
+#a   Large N prime number, 
+def generateE(a,b):
+	e = random.randint(3,65537)
+	while ( gcd(e,b)!=1 and gcd(b,e)!=1):
+		e = random.randint(3,65537)
+	return e
+	#conditions: a and e are positive
+	
+#returns greatest common divisor 
+def gcd(a,b):
+	if (b == 0):
+		return a
+	else:
+		return gcd(b,a % b)
