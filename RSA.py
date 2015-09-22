@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import math
 import myUtility
 import sys
@@ -60,7 +61,14 @@ def Extended_Euclidean(a,b):
 	
 def RSA_Encryption(e,n): #int pair, public key string and
 	#message to be encrypted
+	#convert string to ascii
 	return 'some string'
+	
+def RSA_Decrpytion(d,n)
+	#convert num to asci code
+
+	#m%128 -> last char
+	#m/=128
 	
 	
 	
@@ -70,8 +78,59 @@ def RSA_Encryption(e,n): #int pair, public key string and
 #we need n,phi 
 # n is p*q and phi is (p-1)*(q-1)
 #Next task, build the command line parser
-print fermatsTest(3)
-Extended_Euclidean(40,7)
+#		cases:
+#				script.exe s
+#				script.exe a b
+#				script.exe e p q
+#				script.exe 'e' e n
+#				script.exe 'd' d n
+
+
+
+
+def main():
+	#argparse treats it as strings
+	numArgs = len(sys.argv)
+	print sys.argv[1]
+	argList = sys.argv
+	
+	#build a switch case funct
+	if (numArgs == 2):
+		print '2 arguments!'
+	elif (numArgs == 3):
+		print '3 arguments!'
+	elif (numArgs == 4):
+		if (argList[2]=='p'):
+			print 'found e p q'
+		elif (argList[2]=='e'):
+			print 'found "e" p and q'
+		elif (argList[2]=='d'):
+			print 'found last one'
+	
+	
+
+#print fermatsTest(3)
+#Extended_Euclidean(40,7)
+main()
+#numArgs = len(sys.argv)
+#	argList = str(sys.argv)
+#	print sys.argv[1]
+#	print argList
+#	if (numArgs == 2):
+#		print '2 arguments!'
+#	elif (numArgs == 3):
+#		print '3 arguments!'
+#
+#
+#
+#
+#
+#
+#
+#
+#
+
+
 
 
 
