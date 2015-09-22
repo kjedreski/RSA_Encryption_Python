@@ -18,6 +18,7 @@ def generateInt(n):
 #generate a relatively prime number
 #a   Large N prime number, 
 def generateE(a,b):
+	#e has to be relatively prime of phi
 	e = random.randint(3,65537)
 	while ( gcd(e,b)!=1 and gcd(b,e)!=1):
 		e = random.randint(3,65537)
