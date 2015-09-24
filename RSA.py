@@ -17,9 +17,10 @@ def fermatsTest(size):
 	n = myUtility.generateLargeN(size)	
 	k=0
 	#test for prime, if not regen a random number.
+	#pow(x,n)%z is inefficient and pow(x,n,z) computes more efficiently
 	while( k<5):
 			x = myUtility.generateInt(n)
-			if (pow(x,n-1)%n == 1):
+			if (pow(x,n-1,n) == 1):
 				k+=1
 			else:
 				n = myUtility.generateLargeN(size)
@@ -64,7 +65,8 @@ def RSA_Encryption(e,n): #int pair, public key string and
 	#convert string to ascii
 	return 'some string'
 	
-def RSA_Decrpytion(d,n)
+def RSA_Decrpytion(d,n):
+	return 'iu'
 	#convert num to asci code
 
 	#m%128 -> last char
@@ -93,10 +95,10 @@ def main():
 	numArgs = len(sys.argv)
 	print sys.argv[1]
 	argList = sys.argv
-	
+	s = int(argList[1])
 	#build a switch case funct
 	if (numArgs == 2):
-		print '2 arguments!'
+		print fermatsTest(s)
 	elif (numArgs == 3):
 		print '3 arguments!'
 	elif (numArgs == 4):
@@ -111,7 +113,9 @@ def main():
 
 #print fermatsTest(3)
 #Extended_Euclidean(40,7)
-main()
+print myUtility.generateLargeN(10)
+#fermatsTest(10)
+#main()
 #numArgs = len(sys.argv)
 #	argList = str(sys.argv)
 #	print sys.argv[1]
