@@ -5,15 +5,15 @@ import math
 
 #generate random large number thats @size digits long and odd
 def generateLargeN(size):
-	start = 2*pow(10,size-1)
-	end = 9*pow(10,size-1)
+	start = 2*pow(10,size)
+	end = 9*pow(10,size)
 	n = random.randint(start,end)
 	while (n%2 == 0):
 		n = random.randint(start,end) 
 	return n
 #generate a integer for fermat's test
 def generateInt(n):
-	return random.randint(2,n-2)
+	return random.randint(3,n-2)
 	
 #generate a relatively prime number
 #a   Large N prime number, 

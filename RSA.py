@@ -12,7 +12,7 @@ import myUtility
 
 	
 def fermatsTest(size):
-	n = myUtility.generateLargeN(size)	
+	n = myUtility.generateLargeN(size)
 	k=0
 	#test for prime, if not regen a random number.
 	#pow(x,n)%z is inefficient and pow(x,n,z) computes more efficiently
@@ -22,8 +22,27 @@ def fermatsTest(size):
 				k+=1
 			else:
 				n = myUtility.generateLargeN(size)
-				k=0	
+				k=0
 	return n	
+
+
+### Experimental functions
+def Extended_Euclidean2(a,b):
+	if (a==0):
+		return (b,0,1)
+	else:
+		(d,y,x)=Extended_Euclidean2(b%a,a)
+		(d,x,y)=(d,x-(a/b)*y,y)
+	return (d,x,y)
+def inverse(a,m):
+	gcd,x,y = Extended_Euclidean2(a,m)
+	if gcd !=1:
+		return None
+	else:
+		return x%m
+####################
+
+
 
 # a = phi(n)
 # b = e
@@ -34,7 +53,10 @@ def Extended_Euclidean(a,b):
 	tempPhi2 = a #reps second column/first row and/or orig phi
 	tempE = b #reps first column/second row and/or original e
 	strt = 1 #reps second column/second row 
-	while( (strt*b)%a!=1 ):
+
+	#(strt*b)%a!=1 test case for while loop
+	while( (strt*b)%a!=1 and tempE!=0 ):
+		print tempPhi1,tempE
 		res=tempPhi1/tempE
 		res1= res*tempE
 		res2=res*strt
@@ -55,7 +77,10 @@ def calcPhi_and_N(e,p,q):
 	n=p*q
 	phi=((p-1)*(q-1))
 	
-	return n,phi
+	if (myUtility.gcd(phi,e)>1):
+		e+=2
+	
+	return n,phi,e
 	
 	
 	
@@ -65,6 +90,7 @@ def RSA_Encryption(e,n,message): #int pair, public key string and
 	for c in message:
 		M+=str(ord(c))
 	M=int(M)
+	print M
 	#convert string to ascii string
 	#then convert back to int
 	# M = 10734553
@@ -73,14 +99,17 @@ def RSA_Encryption(e,n,message): #int pair, public key string and
 
 def RSA_Decrpytion(d,n,message):
 	#convert num to asci code
+	print "message is {}, d={},n={}".format(message,d,n)
 	M=pow(message,d,n)
-	answer = ""
-	while (M>0):
-		answer+=str(ord(M%128))
-		M/=128
+	print "decrtiped={}".format(M)
+	
+	#answer = ""
+	#while (M>0):
+	#	answer+=str(ord(M%128))
+	#	M/=128
 	
 	#now answer should be in ascii, we need to convert to chars
-	return answer
+	#return answer
 
 	#m%128 -> last char
 	#m/=128
@@ -148,14 +177,21 @@ def main():
 
 
 #test cases
-p=fermatsTest(10)
-q=fermatsTest(10)
-e=7
-n,phi=calcPhi_and_N(e,p,q)
-d,temp= Extended_Euclidean(phi,e)
+p=fermatsTest(100)
+q=fermatsTest(100)
+e=11
+n,phi,e=calcPhi_and_N(e,p,q)
+#above are checked off and working
+
+d,y=Extended_Euclidean(phi,e)
+#when doing modular arithmetic, you cannot get a result greater or equal than
+#modulus
+#print '{}*{}+{}*{}=1'.format(phi,x,e,y)
+#print d,x,y
 message= raw_input('message you want to encrypt is: ')
 C=RSA_Encryption(e,n,message)
-#answer=RSA_Decrpytion(d,n,C)
+print 'C is {}'.format(C)
+RSA_Decrpytion(d,n,C)
 #print answer
 
 
