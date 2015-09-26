@@ -1,7 +1,7 @@
 #!/usr/bin/python
+import sys
 import math
 import myUtility
-import sys
 #Developer: Kevin Jedreski
 #Purpose: RSA Encryption
 # There's a 1/25 chance to grab a random prime
@@ -9,9 +9,7 @@ import sys
 #		  fermatsTest:
 #		     n to test , k will be how many times to test for primility,
 #		    repeat k times
-#
-#
-#
+
 	
 def fermatsTest(size):
 	n = myUtility.generateLargeN(size)	
@@ -50,24 +48,39 @@ def Extended_Euclidean(a,b):
 			strt %=a
 	d = strt
 	# return d which is y. return quotient which is x		
-	print 'strt= %r, tempPhi1=%r, tempE=%r'%(strt,tempPhi1,tempE)
 	#return for ax+by=gcd(a,b)
 	return d,tempE
 
+def calcPhi_and_N(e,p,q):
+	n=p*q
+	phi=((p-1)*(q-1))
+	
+	return n,phi
 	
 	
 	
-	
-	
-	
-def RSA_Encryption(e,n): #int pair, public key string and
+def RSA_Encryption(e,n,message): #int pair, public key string and
 	#message to be encrypted
-	#convert string to ascii
-	return 'some string'
-	
-def RSA_Decrpytion(d,n):
-	return 'iu'
+	M=""
+	for c in message:
+		M+=str(ord(c))
+	M=int(M)
+	#convert string to ascii string
+	#then convert back to int
+	# M = 10734553
+	C=pow(M,e,n)
+	return C
+
+def RSA_Decrpytion(d,n,message):
 	#convert num to asci code
+	M=pow(message,d,n)
+	answer = ""
+	while (M>0):
+		answer+=str(ord(M%128))
+		M/=128
+	
+	#now answer should be in ascii, we need to convert to chars
+	return answer
 
 	#m%128 -> last char
 	#m/=128
@@ -93,29 +106,61 @@ def RSA_Decrpytion(d,n):
 def main():
 	#argparse treats it as strings
 	numArgs = len(sys.argv)
-	print sys.argv[1]
 	argList = sys.argv
-	s = int(argList[1])
 	#build a switch case funct
 	if (numArgs == 2):
+		s = int(argList[1])
 		print fermatsTest(s)
+		
 	elif (numArgs == 3):
-		print '3 arguments!'
+		a = int(argList[1])
+		b = int(argList[2])
+		print myUtility.gcd(a,b)
+			
 	elif (numArgs == 4):
-		if (argList[2]=='p'):
+	    if (argList[2]=='p'):
 			print 'found e p q'
-		elif (argList[2]=='e'):
-			print 'found "e" p and q'
-		elif (argList[2]=='d'):
-			print 'found last one'
+			e=argList[1]
+			p=argList[2]
+			q=argList[3]
+			Extended_Euclidean(e,p*q)
+			
+	elif (numArgs == 5):
+		if (argList[1]=='e'):
+			e=int(argList[2])
+			n=int(argList[3])
+			message=argList[4]
+			print RSA_Encryption(e,n,message)
+		elif (argList[1]=='d'):
+			d=int(argList[2])
+			n=int(argList[3])
+			message=int(argList[4])
+			print RSA_Decrpytion(d,n,message)
+			
 	
 	
 
 #print fermatsTest(3)
 #Extended_Euclidean(40,7)
-print myUtility.generateLargeN(10)
+
 #fermatsTest(10)
 #main()
+
+
+#test cases
+p=fermatsTest(10)
+q=fermatsTest(10)
+e=7
+n,phi=calcPhi_and_N(e,p,q)
+d,temp= Extended_Euclidean(phi,e)
+message= raw_input('message you want to encrypt is: ')
+C=RSA_Encryption(e,n,message)
+#answer=RSA_Decrpytion(d,n,C)
+#print answer
+
+
+
+
 #numArgs = len(sys.argv)
 #	argList = str(sys.argv)
 #	print sys.argv[1]
