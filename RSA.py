@@ -88,7 +88,18 @@ def RSA_Encryption(e,n,message): #int pair, public key string and
 	#message to be encrypted
 	M=""
 	for c in message:
-		M+=str(ord(c))
+		if (len(str(ord(c)))==2):
+			c=str(ord(c))
+			t1=c[0]
+			t2=c[1]
+			c=""
+			c+='0'
+			c+=t1
+			c+=t2
+			print 'c is {}'.format(c)
+			M+=c
+		else:
+			M+=str(ord(c))
 	M=int(M)
 	print M
 	#convert string to ascii string
@@ -97,39 +108,33 @@ def RSA_Encryption(e,n,message): #int pair, public key string and
 	C=pow(M,e,n)
 	return C
 
+
+
+
 def RSA_Decrpytion(d,n,message):
 	#convert num to asci code
-	print "message is {}, d={},n={}".format(message,d,n)
+	# ord() text to ascii
+	# chr() ascii to text
+	print "In Decrpytion func, encrypted message is {}".format(message)
 	M=pow(message,d,n)
-	print "decrtiped={}".format(M)
+	print "Using private key, ascii value should be: {}".format(M)
+	M = str(M)
+	msgLen = len(M)
+	i=1
+	values=[]
+	answer=""
+	#parse every 3 digits from ascii msg
+	while (i <= msgLen):
+	# append from begining to position 3
+		values.append(M[:3])
+	#append from position 3 to end
+		M = M[3:]
+		i+=3
+	for i in values:
+		answer+=chr(int(i))
+	return answer
+		
 	
-	#answer = ""
-	#while (M>0):
-	#	answer+=str(ord(M%128))
-	#	M/=128
-	
-	#now answer should be in ascii, we need to convert to chars
-	#return answer
-
-	#m%128 -> last char
-	#m/=128
-	
-	
-	
-#during main course, validate size to be not 0
-#MAIN
-#variables we have: p and q and e and d
-#we need n,phi 
-# n is p*q and phi is (p-1)*(q-1)
-#Next task, build the command line parser
-#		cases:
-#				script.exe s
-#				script.exe a b
-#				script.exe e p q
-#				script.exe 'e' e n
-#				script.exe 'd' d n
-
-
 
 
 def main():
@@ -177,17 +182,17 @@ def main():
 
 
 #test cases
-p=fermatsTest(100)
-q=fermatsTest(100)
+p=fermatsTest(10)
+q=fermatsTest(10)
 e=11
 n,phi,e=calcPhi_and_N(e,p,q)
 #above are checked off and working
-
 d,y=Extended_Euclidean(phi,e)
 #when doing modular arithmetic, you cannot get a result greater or equal than
 #modulus
 #print '{}*{}+{}*{}=1'.format(phi,x,e,y)
 #print d,x,y
+#d is the inverse of e, hence showing original message
 message= raw_input('message you want to encrypt is: ')
 C=RSA_Encryption(e,n,message)
 print 'C is {}'.format(C)
