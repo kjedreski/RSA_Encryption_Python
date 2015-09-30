@@ -25,7 +25,8 @@ def Extended_Euclidean2(a,b):
 		return (a,1,0)
 	(d,x,y)=Extended_Euclidean2(b,a%b)
 	(d,x,y)=(d,y,x-(a/b)*y)
-	print "{}*{}+{}*{}=1".format(a,x,b,y)
+	return (d,x,y)
+	
 	
 # a = phi(n)
 # b = e
@@ -57,7 +58,6 @@ def Extended_Euclidean(a,b):
 def calcPhi_and_N(e,p,q):
 	n=p*q
 	phi=((p-1)*(q-1))
-	
 	if (myUtility.gcd(phi,e)>1):
 		e+=2
 	return n,phi,e
@@ -78,8 +78,6 @@ def RSA_Encryption(e,n,message): #int pair, public key string and
 	M=int(M)
 	#convert string t3o ascii string
 	#then convert back to int
-	# M = 10734553
-	print M
 	C=pow(M,e,n)
 	return C
 
@@ -88,11 +86,7 @@ def RSA_Decrpytion(d,n,message):
 	# ord() text to ascii
 	# chr() ascii to text
 	#parse from the back,
-	
-	
-	print "In Decrpytion func, encrypted message is {}".format(message)
 	M=pow(message,d,n)
-	print "Using private key, ascii value should be: {}".format(M)
 	answer=""
 	while (M>0):
 		#make a list and then join
@@ -101,7 +95,6 @@ def RSA_Decrpytion(d,n,message):
 	result = ""
 	for i in xrange(len(answer)-1,-1,-1):
 		result+= answer[i]
-	print result
 	#parse every 3 digits from ascii msg
 	#while (i <= msgLen):
 	# append from begining to position 3
@@ -125,7 +118,9 @@ def main():
 	elif (numArgs == 3):
 		a = int(argList[1])
 		b = int(argList[2])
-		Extended_Euclidean2(a,b)
+		d,x,y=Extended_Euclidean2(a,b)
+		print "{}*{}+{}*{}=1".format(a,x,b,y)
+		print d
 	elif (numArgs == 4):
 		e=int(argList[1])
 		p=int(argList[2])
